@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html><head><title>Mock Editor</title></head>
+<body>
+  <script>
+    // Log incoming messages
+    window.addEventListener('message', e => {
+      console.log('Editor received:', e.data, 'from', e.origin);
+    });
+    // Notify parent when loaded
+    parent.postMessage({type:'iframeLoaded'}, 'http://localhost:5000');
+    console.log('Editor iframe loaded, sent ready message');
+  </script>
+</body></html>
