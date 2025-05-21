@@ -33,10 +33,17 @@ class EditorController {
     web.window.onMessage.listen((event) {
       if (event.origin == 'http://localhost:3005') {
         try {
-          final data = jsonDecode((event.data as JSString).toDart);
-          debugPrint('Received: $data');
+          // Convert event.data to a Dart String
+          final rawData = event.data;
+          debugPrint('Event type: ${event.type}');
+          debugPrint('Raw data type: ${rawData.runtimeType}');
+          final data =
+              rawData is JSString ? rawData.toDart : rawData.toString();
 
-          if (data is Map && data['type'] == 'iframeLoaded') {
+          final decodedData = jsonDecode(data);
+          debugPrint('Received: $decodedData');
+
+          if (decodedData is Map && decodedData['type'] == 'iframeLoaded') {
             _iframeLoaded = true;
             _processQueue();
           }
